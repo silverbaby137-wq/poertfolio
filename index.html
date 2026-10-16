@@ -36,7 +36,7 @@
    ========================================================================== */
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -155,7 +155,7 @@ p, h1, h2 { margin: 0; }
 /* ==========================================================================
    Featured projects
    ========================================================================== */
-.featured { padding: 80px 0 140px; }
+.featured { padding: 80px 0 140px; background: #FFFFFF; }
 
 .featured__frame {
   width: min(var(--featured-w), 100% - 2 * var(--gutter));
@@ -257,6 +257,7 @@ p, h1, h2 { margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   .card img, .nav__link, .nav__icon { transition: none; }
   .card:hover img { transform: none; }
 }
@@ -400,7 +401,7 @@ p, h1, h2 { margin: 0; }
 }
 
 /* ====================== Currently distracted by ====================== */
-.distracted { padding: 113px 0 160px; }
+.distracted { padding: 113px 0 160px; background: #FFFFFF; }
 .distracted__frame {
   width: min(1504px, 100% - 2 * var(--gutter));
   margin-left: max(var(--gutter), calc(50% - 696px));
