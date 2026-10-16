@@ -584,6 +584,53 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
   .site-footer { padding-bottom: 40px; }
 }
 @media (prefers-reduced-motion: reduce) { .arcade__btn, .footer__link, .footer__social img { transition: none; } }
+/* ---- Hero interactions: stickers respond to hover / focus / tap. Messages and
+   popover are small and transient; every effect has a reduced-motion fallback. ---- */
+.sticker[data-fx] {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  translate: var(--mx, 0px) var(--my, 0px);   /* cursor magnet (set by JS, a few px) */
+  transition: translate .45s var(--ease-out), scale .3s var(--ease-out), filter .3s;
+}
+.sticker[data-fx].is-hover { scale: 1.035; }
+.sticker[data-fx=heart].is-hover { scale: 1; }
+.sticker[data-fx]:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: 10px; }
+.s-heart { pointer-events: auto; }
+.s-steth  { transform-origin: 50% 8%; }
+.s-crown  { transform-origin: 50% 90%; }
+.s-book   { transform-origin: 0% 50%; }
+.s-flower { transform-origin: 50% 60%; }
+.fx-swing  { animation: fx-swing 1.4s ease-in-out; }
+.fx-flip   { animation: fx-flip .95s cubic-bezier(.45,.05,.3,1); }
+.fx-beat   { animation: fx-beat 1.4s ease-in-out; }
+.fx-tilt   { animation: fx-tilt .9s ease-in-out; }
+.fx-wobble { animation: fx-wobble .7s ease-in-out; }
+.fx-spin   { animation: fx-spin .8s cubic-bezier(.3,.7,.3,1); }
+@keyframes fx-swing { 0%{rotate:0deg} 18%{rotate:-6deg} 40%{rotate:4.5deg} 62%{rotate:-2.5deg} 82%{rotate:1deg} 100%{rotate:0deg} }
+@keyframes fx-flip  { 0%{transform:perspective(700px) rotateY(0);filter:brightness(1)} 38%{transform:perspective(700px) rotateY(-58deg);filter:brightness(.9)} 70%{transform:perspective(700px) rotateY(6deg);filter:brightness(1.03)} 100%{transform:perspective(700px) rotateY(0);filter:brightness(1)} }
+@keyframes fx-beat  { 0%{scale:1} 8%{scale:1.14} 16%{scale:1.02} 24%{scale:1.09} 34%{scale:1} 50%{scale:1} 58%{scale:1.14} 66%{scale:1.02} 74%{scale:1.09} 84%{scale:1} 100%{scale:1} }
+@keyframes fx-tilt  { 0%{rotate:0deg} 30%{rotate:-10deg} 65%{rotate:6deg} 100%{rotate:0deg} }
+@keyframes fx-wobble{ 0%{rotate:0deg} 30%{rotate:1.1deg} 65%{rotate:-.8deg} 100%{rotate:0deg} }
+@keyframes fx-spin  { 0%{rotate:0deg;scale:1} 35%{rotate:-16deg;scale:1.12} 70%{rotate:9deg;scale:1.05} 100%{rotate:0deg;scale:1} }
+/* Grey's card while its theme plays */
+.s-movie.is-playing { filter: drop-shadow(0 10px 22px rgba(0,0,0,.35)); animation: fx-bob 1.8s ease-in-out infinite; }
+@keyframes fx-bob { 0%,100%{rotate:-1.2deg;scale:1.03} 50%{rotate:1.2deg;scale:1.05} }
+.hero-tip {
+  position: absolute; left: 0; top: 0; z-index: 30; pointer-events: none;
+  padding: 9px 14px; border-radius: 999px; background: var(--ink); color: #fff;
+  font: 500 14px/1.1 var(--font); white-space: nowrap;
+  opacity: 0; transform: translateY(6px) scale(.96);
+  transition: opacity .2s, transform .2s;
+}
+.hero-tip.is-show { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .sticker[data-fx] { transition: none; translate: none; }
+  .sticker[data-fx].is-hover { scale: 1; }
+  .fx-swing,.fx-flip,.fx-beat,.fx-tilt,.fx-wobble,.fx-spin { animation: none; }
+  .s-movie.is-playing { animation: none; }
+  .hero-tip { transition: none; }
+}
 </style>
 </head>
 
@@ -632,17 +679,18 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
     <section class="collage container" aria-label="Portrait collage">
       <div class="stage">
         <img class="sticker s-figma"     src="assets/figma-logo.png"  alt="" width="203" height="207">
-        <img class="sticker s-book"     src="assets/vagabonds.png"   alt="Vagabonds! by Eloghosa Osunde, my favourite book" width="355" height="371">
-        <img class="sticker s-dashboard" src="assets/dashboard.png"   alt="Cruz rental management dashboard" width="734" height="656">
-        <img class="sticker s-stamp"     src="assets/stamp.png"       alt="Portrait of Danyl in a postage-stamp frame" width="806" height="999">
-        <img class="sticker s-crown"     src="assets/crown.png"       alt="" width="560" height="560">
-        <img class="sticker s-flower"    src="assets/flower.png"      alt="" width="250" height="250">
+        <img class="sticker s-book" data-fx="book" role="button" tabindex="0" aria-label="Vagabonds! by Eloghosa Osunde, my favourite book"     src="assets/vagabonds.png"   alt="Vagabonds! by Eloghosa Osunde, my favourite book" width="355" height="371">
+        <img class="sticker s-dashboard" data-fx="dashboard" role="button" tabindex="0" aria-label="Cruz rental management dashboard" src="assets/dashboard.png"   alt="Cruz rental management dashboard" width="734" height="656">
+        <img class="sticker s-stamp" data-fx="stamp" role="button" tabindex="0" aria-label="Portrait of Danyl in a postage-stamp frame"     src="assets/stamp.png"       alt="Portrait of Danyl in a postage-stamp frame" width="806" height="999">
+        <img class="sticker s-crown" data-fx="crown" role="button" tabindex="0" aria-label="Crown: shows a message"     src="assets/crown.png"       alt="" width="560" height="560">
+        <img class="sticker s-flower" data-fx="flower" role="button" tabindex="0" aria-label="Flower"    src="assets/flower.png"      alt="" width="250" height="250">
         <img class="sticker s-blank"     src="assets/blank-theory.png" alt="Blank Theory logo" width="166" height="147">
-        <img class="sticker s-steth"     src="assets/stethoscope.png" alt="Stethoscope" width="495" height="379">
-        <img class="sticker s-heart"     src="assets/heart.png"       alt="" width="281" height="272">
+        <img class="sticker s-steth" data-fx="steth" role="button" tabindex="0" aria-label="Stethoscope: shows a message"     src="assets/stethoscope.png" alt="Stethoscope" width="495" height="379">
+        <img class="sticker s-heart" data-fx="heart" role="button" tabindex="0" aria-label="Heart"     src="assets/heart.png"       alt="" width="281" height="272">
         <img class="sticker s-puff"      src="assets/powerpuff.png"   alt="The Powerpuff Girls" width="250" height="167">
-        <img class="sticker s-movie"     src="assets/movie.png"       alt="Grey’s Anatomy cast, my favourite show" width="326" height="375">
+        <img class="sticker s-movie" data-fx="movie" role="button" tabindex="0" aria-label="Play Grey’s Anatomy theme, Cosy in the Rocket by Psapp" aria-pressed="false"     src="assets/movie.png"       alt="Grey’s Anatomy cast, my favourite show" width="326" height="375">
         <img class="sticker s-claude"    src="assets/claude-logo.png" alt="Claude logo" width="159" height="156">
+        <div class="hero-tip" id="hero-tip" role="status" aria-live="polite"></div>
       </div>
     </section>
 
@@ -1284,5 +1332,173 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
   })();
   </script>
 
+  <script>
+  /* Hero interactions. Sounds are synthesised in the browser (Web Audio) and only
+     start from a click, tap or Enter/Space, never on load or hover. Hover is visual only. */
+  (function () {
+    var stage = document.querySelector('.collage .stage');
+    if (!stage) return;
+    var mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+    var tip = document.getElementById('hero-tip');
+    var els = {}; [].forEach.call(stage.querySelectorAll('[data-fx]'), function (e) { els[e.dataset.fx] = e; });
+
+    /* ---------- audio engine ---------- */
+    var AC = window.AudioContext || window.webkitAudioContext, ctx = null, out = null, nbuf = null, last = {};
+    function audio() {
+      if (!AC) return null;
+      if (!ctx) {
+        try { ctx = new AC(); out = ctx.createGain(); out.gain.value = 0.5; out.connect(ctx.destination); }
+        catch (e) { ctx = null; return null; }
+      }
+      if (ctx.state === 'suspended' && ctx.resume) ctx.resume().catch(function () {});
+      return ctx;
+    }
+    function tone(f, t, d, type, v, f2) {
+      var o = ctx.createOscillator(), g = ctx.createGain(); t += ctx.currentTime;
+      o.type = type; o.frequency.setValueAtTime(f, t);
+      if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      o.connect(g); g.connect(out); o.start(t); o.stop(t + d + 0.03);
+    }
+    function hiss(t, d, v, f1, f2, type) {
+      if (!nbuf) {
+        nbuf = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+        var a = nbuf.getChannelData(0); for (var i = 0; i < a.length; i++) a[i] = Math.random() * 2 - 1;
+      }
+      var s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain(); t += ctx.currentTime;
+      s.buffer = nbuf; f.type = type || 'bandpass'; f.Q.value = 0.9;
+      f.frequency.setValueAtTime(f1, t); f.frequency.exponentialRampToValueAtTime(f2, t + d);
+      g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+      s.connect(f); f.connect(g); g.connect(out); s.start(t); s.stop(t + d + 0.03);
+    }
+    var SND = {
+      book:   function () { hiss(0, 0.26, 0.28, 1500, 4800); hiss(0.13, 0.18, 0.14, 2200, 5200); },
+      heart:  function () { [0.11, 0.81].forEach(function (b) { tone(72, b, 0.2, 'sine', 0.6, 42); tone(60, b + 0.23, 0.2, 'sine', 0.42, 38); }); },
+      crown:  function () { tone(1319, 0, 0.35, 'sine', 0.12); tone(1976, 0.09, 0.4, 'sine', 0.1); tone(2637, 0.18, 0.5, 'sine', 0.07); },
+      stamp:  function () { tone(150, 0, 0.14, 'sine', 0.4, 55); hiss(0, 0.07, 0.12, 900, 300, 'lowpass'); },
+      dashboard: function () { tone(660, 0, 0.12, 'triangle', 0.12); tone(990, 0.07, 0.16, 'triangle', 0.1); },
+      flower: function () { tone(1047, 0, 0.5, 'sine', 0.1); tone(1568, 0.06, 0.55, 'sine', 0.07); }
+    };
+    function play(key) {
+      var now = Date.now();
+      if (now - (last[key] || 0) < 900 || now - (last.any || 0) < 120) return false;   // no overlapping or machine-gun repeats
+      last[key] = last.any = now;
+      if (SND[key] && audio()) { try { SND[key](); } catch (e) {} }
+      return true;
+    }
+
+    /* ---------- visual effects ---------- */
+    var FX = { steth: 'fx-swing', book: 'fx-flip', heart: 'fx-beat', crown: 'fx-tilt', stamp: 'fx-wobble', flower: 'fx-spin' };
+    function run(key) {
+      var el = els[key], c = FX[key];
+      if (!el || !c || mq.matches || el.classList.contains(c)) return;
+      el.classList.add(c);
+      el.addEventListener('animationend', function done(e) {
+        if (e.target !== el) return; el.removeEventListener('animationend', done); el.classList.remove(c);
+      });
+    }
+
+    /* ---------- message bubble & popover ---------- */
+    var tipTimer = 0, tipFor = null;
+    function put(box, target, side) {
+      var s = stage.getBoundingClientRect(), r = target.getBoundingClientRect(), vw = document.documentElement.clientWidth, vh = window.innerHeight;
+      var w = box.offsetWidth, h = box.offsetHeight, x, y;
+      if (side === 'right') {
+        x = r.right + 8; y = r.top + r.height * 0.3 - h / 2;
+        if (x + w > vw - 8) x = r.left - w - 8;
+      } else {
+        x = r.left + r.width / 2 - w / 2; y = r.top - h - 8;
+        if (y < 8) y = r.bottom + 8;
+      }
+      x = Math.max(8, Math.min(x, vw - w - 8)); y = Math.max(8, Math.min(y, vh - h - 8));
+      box.style.left = (x - s.left) + 'px'; box.style.top = (y - s.top) + 'px';
+    }
+    function showTip(key, text, side, ms) {
+      clearTimeout(tipTimer); tipFor = key; tip.textContent = text;
+      put(tip, els[key], side); tip.classList.add('is-show');
+      if (ms) tipTimer = setTimeout(hideTip, ms);
+    }
+    function hideTip() { clearTimeout(tipTimer); tipFor = null; tip.classList.remove('is-show'); }
+    var TIPS = { steth: ['Vitals checked. UX under review.', 'top'], crown: ['CEO', 'right'] };
+
+
+    /* ---------- Grey's Anatomy theme ---------- */
+    var THEME_SRC = 'assets/audio/cosy-in-the-rocket.mp3';   // supply a licensed file at this path
+    var theme = null, movie = els.movie;
+    function themeState(on) {
+      movie.classList.toggle('is-playing', on); movie.setAttribute('aria-pressed', on ? 'true' : 'false');
+      movie.setAttribute('aria-label', (on ? 'Stop' : 'Play') + ' Grey’s Anatomy theme, Cosy in the Rocket by Psapp');
+    }
+    function toggleTheme() {
+      if (!theme) {
+        theme = new Audio(); theme.preload = 'none'; theme.volume = 0.5;
+        theme.addEventListener('playing', function () { themeState(true); });
+        theme.addEventListener('pause', function () { themeState(false); });
+        theme.addEventListener('ended', function () { themeState(false); });
+        theme.addEventListener('error', function () { themeState(false); if (window.console) console.warn('Grey’s theme: audio file not found at ' + THEME_SRC); });
+      }
+      if (!theme.paused) { theme.pause(); return; }
+      if (!theme.getAttribute('src')) theme.src = THEME_SRC;
+      var p = theme.play(); if (p && p.catch) p.catch(function () { themeState(false); });
+    }
+    window.addEventListener('pagehide', function () { if (theme && !theme.paused) theme.pause(); });
+
+    /* ---------- wiring ---------- */
+    function enter(key) {
+      els[key].classList.add('is-hover'); run(key);
+      if (TIPS[key]) showTip(key, TIPS[key][0], TIPS[key][1]);
+    }
+    function leave(key) {
+      els[key].classList.remove('is-hover'); if (tipFor === key) hideTip();
+    }
+    function activate(key) {
+      if (key === 'movie') { toggleTheme(); return; }
+      
+      if (TIPS[key]) showTip(key, TIPS[key][0], TIPS[key][1], 2600);
+      var fresh = play(key); if (fresh || !SND[key]) run(key);
+    }
+    Object.keys(els).forEach(function (key) {
+      var el = els[key];
+      el.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') enter(key); });
+      el.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') leave(key); });
+      el.addEventListener('focus', function () { if (el.matches(':focus-visible')) enter(key); });
+      el.addEventListener('blur', function () { leave(key); });
+      el.addEventListener('click', function () { activate(key); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(key); }
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      hideTip();
+    });
+    document.addEventListener('pointerdown', function (e) {
+      if (tipFor && e.target !== els[tipFor]) hideTip();
+    });
+
+    /* ---------- cursor magnet (mouse only, a few px) ---------- */
+    var MAG = { steth: 6, book: 5, crown: 5, flower: 6, heart: 6, movie: 5 }, raf = 0, px = 0, py = 0;
+    function magnet() {
+      raf = 0; var s = stage.getBoundingClientRect();
+      Object.keys(MAG).forEach(function (key) {
+        var el = els[key]; if (!el) return;
+        var dx = px - (s.left + el.offsetLeft + el.offsetWidth / 2), dy = py - (s.top + el.offsetTop + el.offsetHeight / 2);
+        var d = Math.sqrt(dx * dx + dy * dy), R = 240, k = d < R ? (1 - d / R) * Math.min(d / 40, 1) : 0;
+        el.style.setProperty('--mx', (d ? dx / d * MAG[key] * k : 0).toFixed(2) + 'px');
+        el.style.setProperty('--my', (d ? dy / d * MAG[key] * k : 0).toFixed(2) + 'px');
+      });
+    }
+    stage.addEventListener('pointermove', function (e) {
+      if (e.pointerType !== 'mouse' || mq.matches) return;
+      px = e.clientX; py = e.clientY; if (!raf) raf = requestAnimationFrame(magnet);
+    });
+    stage.addEventListener('pointerleave', function () {
+      cancelAnimationFrame(raf); raf = 0;
+      Object.keys(MAG).forEach(function (k) { if (els[k]) { els[k].style.setProperty('--mx', '0px'); els[k].style.setProperty('--my', '0px'); } });
+    });
+  })();
+  </script>
 </body>
 </html>
