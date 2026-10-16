@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danyl Isaac — Product Designer &amp; Design Engineer</title>
+<meta name="description" content="Portfolio of Danyl Isaac, Product Designer and Design Engineer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   Tokens
+   Values are lifted straight from the Figma file (1920px artboard).
+   ========================================================================== */
+:root {
+  --bg: #ededed;
+  --ink: #0a0a0a;
+  --ink-heading: #1a1a1a;
+  --muted: #5d5d5d;
+  --body: #666666;
+
+  --font: "Inter Display", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --radius-card: 12px;
+
+  --content-w: 1344px;   /* nav + hero column */
+  --stage-w: 1159px;     /* portrait collage */
+  --featured-w: 1460px;  /* featured projects frame */
+  --gutter: 24px;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 32;   /* "Inter Display" cut */
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+p, h1, h2 { margin: 0; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+
+.container { width: min(var(--content-w), 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+/* ==========================================================================
+   Navigation
+   ========================================================================== */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;                    /* links sit centred on y=48, as in Figma */
+  padding-top: 40px;
+}
+
+.nav__links,
+.nav__social {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav__links { gap: 25px; }
+.nav__social { gap: 20px; }
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  line-height: 22.4px;
+  letter-spacing: -0.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color .2s ease;
+}
+.nav__link:hover { color: var(--ink); }
+.nav__link[aria-current="page"] { color: var(--ink); }
+.nav__link--locked { cursor: default; }
+.nav__link--locked:hover { color: var(--muted); }
+.nav__lock { width: 12px; height: 12px; }
+
+.nav__icon { display: block; opacity: 1; transition: opacity .2s ease; }
+.nav__social a:hover .nav__icon { opacity: .6; }
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero { padding-top: 100px; }      /* nav (56) + 100 = header starts at y=156 */
+
+.hero__intro {
+  width: min(837px, 100%);
+  margin: 71.45px auto 0;
+  font-size: 26px;
+  line-height: 37.7px;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+.hero__intro p + p { margin-top: 37.7px; }   /* the empty line between paragraphs in Figma */
+
+/* ==========================================================================
+   Portrait collage
+   Everything is positioned in % of the 1159 × 598.47 stage so the whole
+   composition scales as one piece. Coordinates are the Figma values.
+   ========================================================================== */
+.collage {
+  margin-top: 68.5px;               /* header ends y=529, collage starts y=598 */
+}
+.stage {
+  --x: calc(100% / 1159);           /* helper: 1 design px horizontally  */
+  position: relative;
+  width: min(var(--stage-w), 100%);
+  aspect-ratio: 1159 / 598.47;
+  margin-inline: auto;
+}
+.sticker {
+  position: absolute;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* stacking order follows the Figma layer order (bottom → top) */
+.s-figma     { left: 72.06%;  top: 20.75%;  width: 8.76%;  z-index: 0; pointer-events: none; }
+.s-book      { left: 15.65%;  top: 49.65%;  width: 15.31%; z-index: 1; }
+.s-dashboard { left: 58.81%;  top: 37.13%;  width: 31.4%;  z-index: 2; }
+.s-stamp     { left: 30.38%;  top: -0.59%;  width: 34.76%; z-index: 3; }
+.s-crown     { left: 45.93%;  top: -14.51%; width: 24.14%; z-index: 4; }
+.s-flower    { left: 26.00%;  top: 73.04%;  width: 10.79%; z-index: 5; }
+.s-blank     { left: 0.64%;   top: 53.16%;  width: 7.13%;  z-index: 6; }
+.s-steth     { left: 7.11%;   top: 18.24%;  width: 21.35%; z-index: 7; }
+.s-heart     { left: 57.26%;  top: 71.75%;  width: 12.15%; z-index: 8; pointer-events: none; }
+.s-puff      { left: 81.48%;  top: 18.41%;  width: 10.77%; z-index: 9; }
+.s-movie     { left: 81.94%;  top: 53.70%;  width: 14.2%;  z-index: 10; }
+.s-claude    { left: 19.92%;  top: 3.04%;   width: 6.82%;  z-index: 11; }
+
+/* ==========================================================================
+   Featured projects
+   ========================================================================== */
+.featured { padding: 80px 0 140px; }
+
+.featured__frame {
+  width: min(var(--featured-w), 100% - 2 * var(--gutter));
+  margin-left: max(var(--gutter), calc(50% - 694px));  /* x=266 on a 1920 canvas */
+  display: grid;
+  grid-template-columns: 293px minmax(0, 1072px);
+  column-gap: 95px;                                      /* 293 + 95 = 388 */
+  align-items: start;
+}
+
+.featured__aside { padding-left: 1px; }
+.featured__aside-inner { width: 222px; display: flex; flex-direction: column; gap: 15.05px; }
+.featured__title {
+  font-size: 16px;
+  line-height: 19.68px;
+  font-weight: 500;
+  color: var(--ink-heading);
+}
+.featured__lede {
+  font-size: 14px;
+  line-height: 17.22px;
+  font-weight: 500;
+  color: var(--body);
+}
+
+/* two independent columns → the asymmetric stagger from the design */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 8px;
+  align-items: start;
+}
+.projects__col { display: flex; flex-direction: column; gap: 8px; }
+
+.card {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  background: #d9d9d9;
+  isolation: isolate;
+}
+.card img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.card:hover img { transform: scale(1.025); }
+
+/* exact artboard proportions (532 wide) */
+.card--cruz      { aspect-ratio: 532 / 516; }
+.card--ajiire    { aspect-ratio: 532 / 370; }
+.card--nere      { aspect-ratio: 532 / 467; }
+.card--ovaro     { aspect-ratio: 532 / 440; }
+.card--cruz-ride { aspect-ratio: 532 / 355; }
+.card--crest     { aspect-ratio: 532 / 558; }
+
+/* ==========================================================================
+   Tablet — 1024px
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .hero__intro { font-size: 24px; line-height: 34.8px; }
+  .hero__intro p + p { margin-top: 34.8px; }
+
+  .featured { padding-top: 64px; }
+  .featured__frame {
+    margin-inline: auto;
+    width: min(1072px, 100% - 2 * var(--gutter));
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 40px;
+  }
+  .featured__aside-inner { width: min(380px, 100%); }
+  .featured__aside { padding-left: 0; }
+}
+
+/* ==========================================================================
+   Mobile — 768px
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root { --gutter: 20px; }
+
+  .nav { flex-wrap: wrap; row-gap: 16px; height: auto; padding-top: 24px; }
+  .nav__links { flex-wrap: wrap; gap: 8px 18px; }
+  .nav__social { margin-left: auto; }
+
+  .hero { padding-top: 56px; }
+  .hero__intro { margin-top: 0; font-size: 20px; line-height: 29px; letter-spacing: -0.4px; }
+  .hero__intro p + p { margin-top: 29px; }
+
+  .collage { margin-top: 72px; width: 100%; }   /* full-bleed so stickers stay legible */
+
+  .featured { padding: 56px 0 80px; }
+
+  /* single column, original left/right order interleaved */
+  .projects { grid-template-columns: minmax(0, 1fr); row-gap: 8px; }
+  .projects__col { display: contents; }
+  .card--cruz      { order: 1; }
+  .card--ovaro     { order: 2; }
+  .card--ajiire    { order: 3; }
+  .card--cruz-ride { order: 4; }
+  .card--nere      { order: 5; }
+  .card--crest     { order: 6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card img, .nav__link, .nav__icon { transition: none; }
+  .card:hover img { transform: none; }
+}
+
+/* ==========================================================================
+   Expertise — numbered services with hover previews
+   Geometry from Figma: 293px aside + 1072px list, rows on a 117px box with a
+   17px top inset, 32px title, 15px gap, 37px pills (5px apart), 30px between rows.
+   ========================================================================== */
+:root {
+  --line: rgba(10, 10, 10, 0.12);
+  --line-strong: rgba(10, 10, 10, 0.18);
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+}
+
+.expertise { padding: 113px 0 135px; }
+
+.expertise__frame {
+  width: min(1504px, 100% - 2 * var(--gutter));
+  margin-left: max(var(--gutter), calc(50% - 696px));   /* x=264 on a 1920 canvas */
+  display: grid;
+  grid-template-columns: 293px minmax(0, 1072px);
+  column-gap: 139px;                                     /* 293 + 139 = 432 */
+  align-items: start;
+}
+.expertise__aside { padding-left: 1px; }
+
+.services { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 30px; }
+
+.svc {
+  position: relative;
+  min-height: 117px;
+  padding: 17px 0 15px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.svc__head { display: flex; align-items: flex-start; }
+.svc__num {
+  flex: 0 0 40px;
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.5px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.svc__body { flex: 1; min-width: 0; }
+.svc__title {
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+}
+.svc__tags { display: flex; flex-wrap: wrap; gap: 5px; margin: 15px 0 0; padding: 0; list-style: none; }
+.svc__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 37px;
+  padding: 0 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.3px;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: border-color .3s ease, color .3s ease;
+}
+.svc.is-open .svc__tag { border-color: var(--ink); color: var(--ink); }
+
+/* Preview — touch / narrow screens: expands inline under the tags (tap to toggle) */
+.svc__preview {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-left: 40px;
+  opacity: 0;
+  transition: grid-template-rows .5s var(--ease-out), opacity .35s ease;
+}
+.svc__preview-inner { min-height: 0; overflow: hidden; }
+.svc__preview img {
+  width: 100%;
+  max-width: 353px;
+  height: auto;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+.svc.is-open .svc__preview { grid-template-rows: 1fr; opacity: 1; }
+
+/* Preview — pointer devices on wide screens: floats at the right of the row on hover */
+@media (hover: hover) and (min-width: 901px) {
+  .svc__preview {
+    position: absolute;
+    top: 17px;
+    right: 0;
+    z-index: 3;
+    display: block;
+    width: 352.94px;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(14px) scale(.97);
+    transform-origin: 100% 0;
+    pointer-events: none;
+    transition: opacity .35s ease, transform .55s var(--ease-out);
+  }
+  .svc__preview-inner { overflow: visible; }
+  .svc__preview img {
+    max-width: none;
+    margin: 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,.06), 0 18px 40px -12px rgba(0,0,0,.28);
+  }
+  .svc:hover, .svc:focus-visible { z-index: 2; }
+  .svc:hover .svc__preview,
+  .svc:focus-visible .svc__preview { opacity: 1; transform: none; }
+  .svc:hover .svc__tag,
+  .svc:focus-visible .svc__tag { border-color: var(--ink); color: var(--ink); }
+}
+
+@media (max-width: 1024px) {
+  .expertise { padding-top: 64px; }
+  .expertise__frame {
+    margin-inline: auto;
+    width: min(1072px, 100% - 2 * var(--gutter));
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 40px;
+  }
+  .expertise__aside { padding-left: 0; }
+}
+
+@media (max-width: 768px) {
+  .expertise { padding: 56px 0 80px; }
+  .services { gap: 20px; }
+  .svc__num, .svc__title { font-size: 20px; line-height: 28px; }
+  .svc__num { flex-basis: 32px; }
+  .svc__preview { margin-left: 32px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc__preview, .svc__tag { transition: none; }
+}
+
+/* ====================== Currently distracted by ====================== */
+.distracted { padding: 113px 0 160px; }
+.distracted__frame {
+  width: min(1504px, 100% - 2 * var(--gutter));
+  margin-left: max(var(--gutter), calc(50% - 696px));
+  display: grid;
+  grid-template-columns: 293px minmax(0, 1072px);
+  column-gap: 139px;
+  align-items: start;
+}
+.distracted__main { display: grid; gap: 56px; min-width: 0; }
+
+/* Spotify card */
+.spot {
+  position: relative; display: flex; align-items: center; gap: 24px;
+  padding: 24px; border-radius: 20px; color: #fff; overflow: hidden;
+  background: linear-gradient(115deg, #17b3a3 0%, #1b8fc4 55%, #2a5bd7 100%);
+  box-shadow: 0 18px 40px -18px rgba(27, 110, 190, .55);
+}
+.spot__art {
+  flex: none; width: 112px; height: 112px; border-radius: 10px; overflow: hidden;
+  background: rgba(255,255,255,.18); box-shadow: 0 8px 20px rgba(0,0,0,.22);
+}
+.spot__art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.spot__text { min-width: 0; flex: 1; }
+.spot__label {
+  display: flex; align-items: center; gap: 8px; margin: 0 0 8px;
+  font-size: 13px; line-height: 18px; letter-spacing: .2px; opacity: .9;
+}
+.spot__label svg { width: 18px; height: 18px; flex: none; }
+.spot__title {
+  margin: 0; font-size: 24px; line-height: 30px; letter-spacing: -.5px; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.spot__artist {
+  margin: 2px 0 0; font-size: 16px; line-height: 24px; opacity: .85;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.spot__note { margin: 6px 0 0; font-size: 13px; line-height: 18px; opacity: .85; }
+.spot__link {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 20px; border-radius: 999px; background: #fff; color: #0a0a0a;
+  font-size: 14px; letter-spacing: -.2px; text-decoration: none; white-space: nowrap;
+  transition: transform .2s var(--ease-out), opacity .2s;
+}
+.spot__link:hover { transform: translateY(-1px); }
+.spot__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.spot__link[aria-disabled="true"] { opacity: .55; pointer-events: none; }
+
+/* Photo collage: the exports already include border, tilt and shadow, so they are plain stickers.
+   One stage scales as a unit; edit left/top/width (% of stage) and z-index to rearrange. */
+.snaps { position: relative; width: 100%; aspect-ratio: 1072 / 600; }
+.snap { position: absolute; display: block; height: auto; user-select: none; }
+.snap--1 { left: 0%;    top: 12%; width: 33%; z-index: 2; }
+.snap--2 { left: 22.5%; top: 0%;  width: 33%; z-index: 3; }
+.snap--3 { left: 45%;   top: 21%; width: 33%; z-index: 4; }
+.snap--4 { left: 67%;   top: 4%;  width: 33%; z-index: 5; }
+
+@media (max-width: 1024px) {
+  .distracted { padding-top: 64px; }
+  .distracted__frame {
+    margin-inline: auto; width: min(1072px, 100% - 2 * var(--gutter));
+    grid-template-columns: minmax(0, 1fr); row-gap: 40px;
+  }
+}
+@media (max-width: 768px) {
+  .distracted { padding: 56px 0 96px; }
+  .distracted__main { gap: 40px; }
+  .spot { flex-wrap: wrap; gap: 16px; padding: 18px; border-radius: 16px; }
+  .spot__art { width: 88px; height: 88px; }
+  .spot__title { font-size: 20px; line-height: 26px; }
+  .spot__link { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .spot__link { transition: none; } }
+</style>
+</head>
+
+<body>
+
+  <!-- ====================== Navigation ====================== -->
+  <header class="container">
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav__links">
+        <li><a class="nav__link" href="#top" aria-current="page">Home</a></li>
+        <li><a class="nav__link" href="#work">Work</a></li>
+        <li>
+          <span class="nav__link nav__link--locked" aria-disabled="true">Gallery
+            <img class="nav__lock" src="assets/icons/locked.svg" width="12" height="12" alt="Locked">
+          </span>
+        </li>
+        <li>
+          <span class="nav__link nav__link--locked" aria-disabled="true">Playground
+            <img class="nav__lock" src="assets/icons/locked.svg" width="12" height="12" alt="Locked">
+          </span>
+        </li>
+        <li><a class="nav__link" href="#studio">Studio</a></li>
+        <li><a class="nav__link" href="#contact">Book a call</a></li>
+      </ul>
+
+      <ul class="nav__social">
+        <li><a href="#" aria-label="Instagram"><img class="nav__icon" src="assets/icons/instagram.svg" width="15" height="16" alt=""></a></li>
+        <li><a href="#contact" aria-label="Email"><img class="nav__icon" src="assets/icons/mail.svg" width="16" height="16" alt=""></a></li>
+        <li><a href="#" aria-label="LinkedIn"><img class="nav__icon" src="assets/icons/linkedin.svg" width="16" height="16" alt=""></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ====================== Hero ====================== -->
+    <section class="hero container" aria-label="Introduction">
+      <h1 class="visually-hidden" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">Danyl Isaac — Product Designer &amp; Design Engineer</h1>
+      <div class="hero__intro">
+        <p>I’m Danyl, a Product Designer &amp; Design Engineer with a background in nursing. That experience shaped the way I approach design: start with the person, understand the problem, pay attention to the details, and make complicated things easier to navigate.</p>
+        <p>I work across product, UX, visual design, and development, which means I’m just as interested in the thinking behind a product as I am in how it looks, moves, and works.</p>
+      </div>
+    </section>
+
+    <!-- ====================== Portrait collage ====================== -->
+    <section class="collage container" aria-label="Portrait collage">
+      <div class="stage">
+        <img class="sticker s-figma"     src="assets/figma-logo.png"  alt="" width="203" height="207">
+        <img class="sticker s-book"     src="assets/vagabonds.png"   alt="Vagabonds! by Eloghosa Osunde, my favourite book" width="355" height="371">
+        <img class="sticker s-dashboard" src="assets/dashboard.png"   alt="Cruz rental management dashboard" width="734" height="656">
+        <img class="sticker s-stamp"     src="assets/stamp.png"       alt="Portrait of Danyl in a postage-stamp frame" width="806" height="999">
+        <img class="sticker s-crown"     src="assets/crown.png"       alt="" width="560" height="560">
+        <img class="sticker s-flower"    src="assets/flower.png"      alt="" width="250" height="250">
+        <img class="sticker s-blank"     src="assets/blank-theory.png" alt="Blank Theory logo" width="166" height="147">
+        <img class="sticker s-steth"     src="assets/stethoscope.png" alt="Stethoscope" width="495" height="379">
+        <img class="sticker s-heart"     src="assets/heart.png"       alt="" width="281" height="272">
+        <img class="sticker s-puff"      src="assets/powerpuff.png"   alt="The Powerpuff Girls" width="250" height="167">
+        <img class="sticker s-movie"     src="assets/movie.png"       alt="Grey’s Anatomy cast, my favourite show" width="326" height="375">
+        <img class="sticker s-claude"    src="assets/claude-logo.png" alt="Claude logo" width="159" height="156">
+      </div>
+    </section>
+
+    <!-- ====================== Featured projects ====================== -->
+    <section class="featured" id="work" aria-labelledby="featured-title">
+      <div class="featured__frame">
+
+        <aside class="featured__aside">
+          <div class="featured__aside-inner">
+            <h2 class="featured__title" id="featured-title">Featured Projects</h2>
+            <p class="featured__lede">A selection of products, brands, and digital experiences I’ve designed and built. Each project is an exercise in turning ideas into something clear, useful, and worth remembering.</p>
+          </div>
+        </aside>
+
+        <div class="projects">
+          <div class="projects__col">
+            <a class="card card--cruz" href="#" aria-label="Cruz — project">
+              <img src="assets/cruz.png" alt="Cruz ride-hailing billboard on a purple car" width="1064" height="1032">
+            </a>
+            <a class="card card--ajiire" href="#" aria-label="Ajiire — project">
+              <img src="assets/ajiire.png" alt="Ajiire — Learn Yoruba, Live It." width="1065" height="741">
+            </a>
+            <a class="card card--nere" href="#" aria-label="Néré — project">
+              <img src="assets/nere.png" alt="Néré hydrating serum on a teal wordmark pattern" width="1064" height="934">
+            </a>
+          </div>
+
+          <div class="projects__col">
+            <a class="card card--ovaro" href="#" aria-label="Ovaro — project">
+              <img src="assets/ovaro.png" alt="Ovaro app icon on a dark background" width="1064" height="880">
+            </a>
+            <a class="card card--cruz-ride" href="#" aria-label="Cruz Ride — driver recruitment">
+              <img src="assets/cruz-ride.png" alt="Start earning on your terms. Join thousands of drivers generating income daily." width="1063" height="709">
+            </a>
+            <a class="card card--crest" href="#" aria-label="Crest Homes — project">
+              <img src="assets/crest.png" alt="Crest Homes branded house keys held against a blue sky" width="1064" height="1116">
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ====================== Expertise ====================== -->
+    <section class="expertise" id="studio" aria-labelledby="expertise-title">
+      <div class="expertise__frame">
+
+        <aside class="expertise__aside">
+          <div class="featured__aside-inner">
+            <h2 class="featured__title" id="expertise-title">My expertise</h2>
+            <p class="featured__lede">I turn complex ideas into thoughtful digital experiences, combining strategy, design, and technology to create products that work beautifully and feel intuitive to use.</p>
+          </div>
+        </aside>
+
+        <ul class="services">
+          <li class="svc" tabindex="0">
+            <div class="svc__head">
+              <span class="svc__num">01</span>
+              <div class="svc__body">
+                <h3 class="svc__title">Website design</h3>
+                <ul class="svc__tags">
+                  <li class="svc__tag">conversion-focused</li><li class="svc__tag">UX/UI</li><li class="svc__tag">brand-aligned</li><li class="svc__tag">custom layout</li>
+                </ul>
+              </div>
+            </div>
+            <div class="svc__preview"><div class="svc__preview-inner">
+              <img src="assets/previews/website-design.png" width="460" height="264" alt="Cruz ride-hailing website: Ride in Comfort, Arrive in Style.">
+            </div></div>
+          </li>
+
+          <li class="svc" tabindex="0">
+            <div class="svc__head">
+              <span class="svc__num">02</span>
+              <div class="svc__body">
+                <h3 class="svc__title">Webflow &amp; Framer Development</h3>
+                <ul class="svc__tags">
+                  <li class="svc__tag">fully responsive</li><li class="svc__tag">clean code</li><li class="svc__tag">SEO-ready</li><li class="svc__tag">CMS integration</li>
+                </ul>
+              </div>
+            </div>
+            <div class="svc__preview"><div class="svc__preview-inner">
+              <img src="assets/previews/webflow-framer.png" width="458" height="264" alt="Néré website open in the Framer editor, desktop and tablet breakpoints">
+            </div></div>
+          </li>
+
+          <li class="svc" tabindex="0">
+            <div class="svc__head">
+              <span class="svc__num">03</span>
+              <div class="svc__body">
+                <h3 class="svc__title">Brand Identity</h3>
+                <ul class="svc__tags">
+                  <li class="svc__tag">logo design</li><li class="svc__tag">brand guidelines</li><li class="svc__tag">visual language</li>
+                </ul>
+              </div>
+            </div>
+            <div class="svc__preview"><div class="svc__preview-inner">
+              <img src="assets/previews/brand-identity.png" width="454" height="264" alt="Nirakara brand guidelines: logo lockup, clear space and typeface">
+            </div></div>
+          </li>
+
+          <li class="svc" tabindex="0">
+            <div class="svc__head">
+              <span class="svc__num">04</span>
+              <div class="svc__body">
+                <h3 class="svc__title">Design Systems</h3>
+                <ul class="svc__tags">
+                  <li class="svc__tag">component library</li><li class="svc__tag">scalable UI</li><li class="svc__tag">dev handoff</li><li class="svc__tag">figma variables</li>
+                </ul>
+              </div>
+            </div>
+            <div class="svc__preview"><div class="svc__preview-inner">
+              <img src="assets/previews/design-systems.png" width="458" height="264" alt="Design system documentation pages covering typography, grid and spacing">
+            </div></div>
+          </li>
+
+          <li class="svc" tabindex="0">
+            <div class="svc__head">
+              <span class="svc__num">05</span>
+              <div class="svc__body">
+                <h3 class="svc__title">Vibe Coding</h3>
+                <ul class="svc__tags">
+                  <li class="svc__tag">AI-assisted</li><li class="svc__tag">rapid prototyping</li><li class="svc__tag">MVP-ready</li>
+                </ul>
+              </div>
+            </div>
+            <div class="svc__preview"><div class="svc__preview-inner">
+              <img src="assets/previews/vibe-coding.png" width="458" height="264" alt="Landing page built with AI assistance: Stop guessing where your money goes">
+            </div></div>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+    <!-- ====================== Currently distracted by ====================== -->
+    <section class="distracted" id="distracted" aria-labelledby="distracted-title">
+      <div class="distracted__frame">
+
+        <aside class="expertise__aside">
+          <div class="featured__aside-inner">
+            <h2 class="featured__title" id="distracted-title">Currently distracted by</h2>
+            <p class="featured__lede">What I'm listening to right now, and a few frames from the places and people that keep pulling me away from the screen.</p>
+          </div>
+        </aside>
+
+        <div class="distracted__main">
+
+          <!-- Set data-endpoint to your deployed function. Empty/unreachable = honest "not connected" state. -->
+          <div class="spot" id="spotify" data-endpoint="/api/recently-played" aria-live="polite">
+            <div class="spot__art" id="spotify-art"></div>
+            <div class="spot__text">
+              <p class="spot__label">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M5.6 9.2c4.3-1.2 9.4-.9 12.9 1.1M6.3 12.5c3.6-1 7.7-.7 10.6.9M7 15.6c2.9-.8 6-.5 8.4.7" fill="none" stroke="#1b8fc4" stroke-width="1.7" stroke-linecap="round"/></svg>
+                <span id="spotify-label">Most recently played on Spotify</span>
+              </p>
+              <p class="spot__title" id="spotify-title">Not connected yet</p>
+              <p class="spot__artist" id="spotify-artist"></p>
+              <p class="spot__note" id="spotify-note">Placeholder state: no live data is being shown.</p>
+            </div>
+            <a class="spot__link" id="spotify-link" href="#" target="_blank" rel="noopener noreferrer" aria-disabled="true" tabindex="-1">Open in Spotify</a>
+          </div>
+
+          <!-- Pre-framed PNG exports (border, tilt and shadow baked in). Swap files in assets/photos/ to change them. -->
+          <div class="snaps" role="group" aria-label="Photo collage">
+            <img class="snap snap--1" src="assets/photos/lake-villa.png" width="804" height="1034" alt="Lakeside villa seen from a wooden boat" loading="lazy">
+            <img class="snap snap--2" src="assets/photos/tennis.png" width="804" height="1034" alt="Red tennis racket and ball on a blue court" loading="lazy">
+            <img class="snap snap--3" src="assets/photos/palm-toast.png" width="804" height="1034" alt="Raising a glass under palm trees and a blue sky" loading="lazy">
+            <img class="snap snap--4" src="assets/photos/cafe.png" width="804" height="1034" alt="Restaurant interior with pink arches and a tall palm" loading="lazy">
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+  /* Services: on pointer devices CSS handles hover. Everywhere else (touch, narrow
+     windows) a tap or Enter/Space opens one preview at a time under its row. */
+  (function () {
+    var rows = Array.prototype.slice.call(document.querySelectorAll('.svc'));
+    if (!rows.length) return;
+    var hoverMode = window.matchMedia('(hover: hover) and (min-width: 901px)');
+
+    function closeAll(except) {
+      rows.forEach(function (r) { if (r !== except) r.classList.remove('is-open'); });
+    }
+    function toggle(row) {
+      if (hoverMode.matches) return;
+      var open = !row.classList.contains('is-open');
+      closeAll(row);
+      row.classList.toggle('is-open', open);
+    }
+
+    rows.forEach(function (row) {
+      row.addEventListener('click', function () { toggle(row); });
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(row); }
+      });
+    });
+
+    var reset = function () { closeAll(); };
+    if (hoverMode.addEventListener) hoverMode.addEventListener('change', reset);
+    else if (hoverMode.addListener) hoverMode.addListener(reset);
+  })();
+  </script>
+
+  <script>
+  /* Spotify: asks YOUR serverless endpoint (secrets stay server-side) for the latest played track. */
+  (function () {
+    var card = document.getElementById('spotify');
+    if (!card) return;
+    var endpoint = card.getAttribute('data-endpoint');
+    var el = function (id) { return document.getElementById(id); };
+    var art = el('spotify-art'), title = el('spotify-title'), artist = el('spotify-artist'),
+        note = el('spotify-note'), link = el('spotify-link'), lastKey = '';
+
+    function offline(msg) {
+      art.textContent = ''; title.textContent = 'Not connected yet'; artist.textContent = '';
+      note.textContent = msg; note.hidden = false;
+      link.setAttribute('aria-disabled', 'true'); link.setAttribute('tabindex', '-1'); link.removeAttribute('href');
+    }
+    function show(t) {
+      var key = t.url + '|' + t.playedAt;
+      if (key === lastKey) return;
+      lastKey = key;
+      art.textContent = '';
+      if (t.image) { var i = new Image(); i.src = t.image; i.alt = 'Album artwork for ' + (t.album || t.title); art.appendChild(i); }
+      title.textContent = t.title; artist.textContent = t.artist; note.hidden = true;
+      if (t.url) { link.href = t.url; link.removeAttribute('aria-disabled'); link.removeAttribute('tabindex'); }
+    }
+    function load() {
+      if (!endpoint) { offline('Placeholder state: no live data is being shown.'); return; }
+      fetch(endpoint, { headers: { Accept: 'application/json' }, cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) {
+          if (d && d.track) show(d.track); else offline('No recent listening history found.');
+        })
+        .catch(function () { if (!lastKey) offline('Placeholder state: the Spotify endpoint isn\'t reachable yet, so no live data is being shown.'); });
+    }
+    load();
+    setInterval(function () { if (!document.hidden) load(); }, 60000);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
+  })();
+  </script>
+
+</body>
+</html>
