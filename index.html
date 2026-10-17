@@ -534,12 +534,8 @@ p, h1, h2 { margin: 0; }
   width: min(1320px, 100% - 2 * var(--gutter));
   margin: 201px 0 0 max(var(--gutter), calc(50% - 695px));
   display: grid; grid-template-columns: minmax(0, 1fr) 256px 128px; align-items: start;
-  grid-template-areas: "intro nav nav2" "mark mark social";
+  grid-template-areas: ". nav nav2" "mark mark social";
   row-gap: 0;
-}
-.footer__intro { grid-area: intro; }
-.footer__headline, .footer__intro p {
-  margin: 0 0 18px; font-size: 14.4px; line-height: 20px; font-weight: 400; letter-spacing: 0; color: rgba(255,255,255,.92);
 }
 .footer__nav { display: contents; }
 .footer__col { list-style: none; margin: 0; padding: 3px 0 0; display: grid; gap: 15.5px; align-content: start; }
@@ -577,7 +573,7 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
   .footer__body {
     width: calc(100% - 2 * var(--gutter)); margin: 64px auto 0;
     grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 32px;
-    grid-template-areas: "intro intro" "nav nav2" "social social" "mark mark";
+    grid-template-areas: "nav nav2" "social social" "mark mark";
   }
   .footer__social { margin: 0; }
   .footer__mark { margin: 24px 0 0; font-size: clamp(48px, 17vw, 120px); }
@@ -652,14 +648,14 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
             <img class="nav__lock" src="assets/icons/locked.svg" width="12" height="12" alt="Locked">
           </span>
         </li>
-        <li><a class="nav__link" href="#studio">Studio</a></li>
-        <li><a class="nav__link" href="#contact">Book a call</a></li>
+        <li><a class="nav__link" href="https://blanktheory.work/" target="_blank" rel="noopener noreferrer">Studio</a></li>
+        <li><a class="nav__link" href="https://cal.com/danyl-1/blanktheory-discovery-call" target="_blank" rel="noopener noreferrer">Book a call</a></li>
       </ul>
 
       <ul class="nav__social">
-        <li><a href="#" aria-label="Instagram"><img class="nav__icon" src="assets/icons/instagram.svg" width="15" height="16" alt=""></a></li>
+        <li><a href="https://www.instagram.com/blannktheory/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img class="nav__icon" src="assets/icons/instagram.svg" width="15" height="16" alt=""></a></li>
         <li><a href="#contact" aria-label="Email"><img class="nav__icon" src="assets/icons/mail.svg" width="16" height="16" alt=""></a></li>
-        <li><a href="#" aria-label="LinkedIn"><img class="nav__icon" src="assets/icons/linkedin.svg" width="16" height="16" alt=""></a></li>
+        <li><a href="https://www.linkedin.com/in/danyl-isaac-784294244/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img class="nav__icon" src="assets/icons/linkedin.svg" width="16" height="16" alt=""></a></li>
       </ul>
     </nav>
   </header>
@@ -902,10 +898,6 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
     </section>
 
     <div class="footer__body">
-      <div class="footer__intro">
-        <h2 class="footer__headline">Good things start with a conversation.</h2>
-        <p>Let’s talk about what we could create together.</p>
-      </div>
 
       <nav class="footer__nav" aria-label="Footer">
         <ul class="footer__col footer__col--a">
@@ -914,7 +906,7 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
           <li><span class="footer__link" aria-disabled="true">Gallery</span></li>
         </ul>
         <ul class="footer__col footer__col--b">
-          <li><a class="footer__link" href="#studio">Studio</a></li>
+          <li><a class="footer__link" href="https://blanktheory.work/" target="_blank" rel="noopener noreferrer">Studio</a></li>
           <li><span class="footer__link" aria-disabled="true">Playground</span></li>
         </ul>
       </nav>
@@ -922,9 +914,9 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
       <p class="footer__mark">Danyl Isaac</p>
 
       <ul class="footer__social" aria-label="Social links">
-        <li><a href="#" aria-label="Instagram"><img src="assets/icons/instagram.svg" width="15" height="16" alt=""></a></li>
+        <li><a href="https://www.instagram.com/blannktheory/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><img src="assets/icons/instagram.svg" width="15" height="16" alt=""></a></li>
         <li><a href="#contact" aria-label="Email"><img src="assets/icons/mail.svg" width="16" height="16" alt=""></a></li>
-        <li><a href="#" aria-label="LinkedIn"><img src="assets/icons/linkedin.svg" width="16" height="16" alt=""></a></li>
+        <li><a href="https://www.linkedin.com/in/danyl-isaac-784294244/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><img src="assets/icons/linkedin.svg" width="16" height="16" alt=""></a></li>
       </ul>
     </div>
 
@@ -1026,8 +1018,9 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
 
     var WALL_FILL = '#080909', LINE = '#ffffff', DOT = '#ffffff', PELLET_COLOR = '#4590e3';
     var PAC_SPEED = 96, GHOST_SPEED = 58, SCARED_SPEED = 40, SCARED_MS = 6500, START_LIVES = 3;
-    var DESIGN_K = 0.65, PLAY_GHOST_K = 0.50, PLAY_PAC_K = 0.37;   /* sprite scale: design look vs. playable size */
-    var HIT_R = 15, EAT_R = 9;
+    var DESIGN_K = 0.65, PLAY_GHOST_K = 0.50;   /* ghost sprite scale: design look vs. playable size */
+    var PAC_K = 0.42;                            /* Pac-Man sprite scale: ONE value for the preview and gameplay (~37px across, fits the ~30-40px corridors) */
+    var HIT_R = 15, EAT_R = 97 * PAC_K * 0.3;    /* pellet reach follows his visible size (~12px; every dot is within 5px of his lane) */
 
     /* ---------- grid ---------- */
     var walk = new Uint8Array(COLS * ROWS);
@@ -1249,7 +1242,7 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
       if (pellet) { var pr = 4.2 + (state === 'playing' && !reduce ? Math.sin(clock / 160) * 0.9 : 0);
         ctx.fillStyle = PELLET_COLOR; ctx.beginPath(); ctx.arc(PELLET[0], PELLET[1], pr, 0, 6.2832); ctx.fill(); }
 
-      var gk = lerp(DESIGN_K, PLAY_GHOST_K, ease(sizeT)), pk = lerp(DESIGN_K, PLAY_PAC_K, ease(sizeT));
+      var gk = lerp(DESIGN_K, PLAY_GHOST_K, ease(sizeT)), pk = PAC_K;
       var bob = (state === 'playing' && !reduce) ? Math.sin(clock / 220) * 1.4 : 0;
       sprite(imgs.orange, PEN_GHOST[0], PEN_GHOST[1] + bob, 61 * 0.41, 60 * 0.41);
 
