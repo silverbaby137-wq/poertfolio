@@ -1561,10 +1561,9 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
       var p = PROJECTS[card.dataset.project]; if (!p) return;
       var open = p.status === 'available' && p.href;
       var cap = el('div', 'card__cap'), left = el('span');
-      left.appendChild(el('span', 'card__brand', p.brand)); left.appendChild(document.createTextNode(' '));
-      left.appendChild(el('span', 'card__year', p.year));
+      left.appendChild(el('span', 'card__brand', p.brand));   /* year stays in the config but is not shown */
       cap.appendChild(left); cap.appendChild(el('span', 'card__role', p.role)); cap.setAttribute('aria-hidden', 'true');
-      var label = p.brand + ', ' + p.year + ', ' + p.role;
+      var label = p.brand + ', ' + p.role;
       if (open) {
         var a = el('a', card.className); a.href = p.href; a.dataset.project = card.dataset.project;
         a.setAttribute('aria-label', label);
