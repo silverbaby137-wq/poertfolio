@@ -209,6 +209,56 @@ p, h1, h2 { margin: 0; }
 .card--cruz-ride { aspect-ratio: 532 / 355; }
 .card--crest     { aspect-ratio: 532 / 558; }
 
+/* ---- Featured project cards ----
+   Artwork stays in full colour. On hover a caption (brand © year, role) slides in under the card;
+   locked projects also darken slightly and show a centred lock pill. Content and availability live in
+   the PROJECTS config in the script near the end of the page. */
+.card { overflow: visible; background: none; margin-bottom: 0; transition: margin-bottom .4s var(--ease-out); }
+.card__media { position: absolute; inset: 0; overflow: hidden; border-radius: var(--radius-card); background: #d9d9d9; z-index: 0; }
+.card__media::after {                       /* muted veil, used by the locked state */
+  content: ""; position: absolute; inset: 0; background: rgba(20, 12, 50, .5); opacity: 0; pointer-events: none;
+  transition: opacity .4s ease;
+}
+.card__cap {
+  position: absolute; left: 0; right: 0; top: calc(100% + 11px); display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  font-size: 16px; line-height: 22px; color: var(--ink); opacity: 0; transform: translateY(-4px); pointer-events: none;
+  transition: opacity .35s ease, transform .4s var(--ease-out);
+}
+.card__brand { font-weight: 400; }
+.card__year, .card__role { color: #8c8c8c; }
+.card__role { text-align: right; }
+.card__pill {
+  position: absolute; z-index: 2; left: 50%; top: 50%; translate: -50% -50%; display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px 11px 14px; border-radius: 999px; background: #fff; color: var(--ink); white-space: nowrap;
+  font-size: 15px; line-height: 20px; font-weight: 500; box-shadow: 0 4px 18px rgba(0,0,0,.18);
+  opacity: 0; scale: .96; pointer-events: none; transition: opacity .35s ease, scale .4s var(--ease-out);
+}
+.card__pill img { width: 14px; height: 14px; }
+a.card { cursor: pointer; }
+.card.is-locked { cursor: default; }
+.card.is-locked:hover img { transform: none; }
+.card:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: var(--radius-card); }
+
+/* hover / keyboard focus */
+.card:hover, .card:focus-visible { margin-bottom: 44px; }
+.card:hover .card__cap, .card:focus-visible .card__cap { opacity: 1; transform: none; }
+.card.is-locked:hover .card__media::after, .card.is-locked:focus-visible .card__media::after { opacity: 1; }
+.card.is-locked:hover img, .card.is-locked:focus-visible img { filter: saturate(.55); }
+.card.is-locked:hover .card__pill, .card.is-locked:focus-visible .card__pill { opacity: 1; scale: 1; }
+
+/* touch / small screens: no hover, so caption and lock pill stay visible */
+@media (hover: none), (max-width: 768px) {
+  .card { margin-bottom: 44px; }
+  .card__cap { opacity: 1; transform: none; }
+  .card.is-locked .card__media::after { opacity: .7; }
+  .card.is-locked img { filter: saturate(.55); }
+  .card.is-locked .card__pill { opacity: 1; scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card, .card__media::after, .card__cap, .card__pill { transition: none; }
+  .card__cap { transform: none; } .card__pill { scale: 1; }
+}
+
 /* ==========================================================================
    Tablet — 1024px
    ========================================================================== */
@@ -703,27 +753,27 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
 
         <div class="projects">
           <div class="projects__col">
-            <a class="card card--cruz" href="#" aria-label="Cruz — project">
-              <img src="assets/cruz.png" alt="Cruz ride-hailing billboard on a purple car" width="1064" height="1032">
-            </a>
-            <a class="card card--ajiire" href="#" aria-label="Ajiire — project">
-              <img src="assets/ajiire.png" alt="Ajiire — Learn Yoruba, Live It." width="1065" height="741">
-            </a>
-            <a class="card card--nere" href="#" aria-label="Néré — project">
-              <img src="assets/nere.png" alt="Néré hydrating serum on a teal wordmark pattern" width="1064" height="934">
-            </a>
+            <div class="card card--cruz" data-project="cruz-ride">
+              <span class="card__media"><img src="assets/cruz.png" alt="Cruz ride-hailing billboard on a purple car" width="1064" height="1032"></span>
+            </div>
+            <div class="card card--ajiire" data-project="ajira">
+              <span class="card__media"><img src="assets/ajiire.png" alt="Ajiire — Learn Yoruba, Live It." width="1065" height="741"></span>
+            </div>
+            <div class="card card--nere" data-project="nere">
+              <span class="card__media"><img src="assets/nere.png" alt="Néré hydrating serum on a teal wordmark pattern" width="1064" height="934"></span>
+            </div>
           </div>
 
           <div class="projects__col">
-            <a class="card card--ovaro" href="#" aria-label="Ovaro — project">
-              <img src="assets/ovaro.png" alt="Ovaro app icon on a dark background" width="1064" height="880">
-            </a>
-            <a class="card card--cruz-ride" href="#" aria-label="Cruz Ride — driver recruitment">
-              <img src="assets/cruz-ride.png" alt="Start earning on your terms. Join thousands of drivers generating income daily." width="1063" height="709">
-            </a>
-            <a class="card card--crest" href="#" aria-label="Crest Homes — project">
-              <img src="assets/crest.png" alt="Crest Homes branded house keys held against a blue sky" width="1064" height="1116">
-            </a>
+            <div class="card card--ovaro" data-project="ovaro">
+              <span class="card__media"><img src="assets/ovaro.png" alt="Ovaro app icon on a dark background" width="1064" height="880"></span>
+            </div>
+            <div class="card card--cruz-ride" data-project="cruz-drive">
+              <span class="card__media"><img src="assets/cruz-ride.png" alt="Start earning on your terms. Join thousands of drivers generating income daily." width="1063" height="709"></span>
+            </div>
+            <div class="card card--crest" data-project="crest-homes">
+              <span class="card__media"><img src="assets/crest.png" alt="Crest Homes branded house keys held against a blue sky" width="1064" height="1116"></span>
+            </div>
           </div>
         </div>
 
@@ -1490,6 +1540,44 @@ a.footer__link:focus-visible { outline: 2px solid #fff; outline-offset: 3px; bor
     stage.addEventListener('pointerleave', function () {
       cancelAnimationFrame(raf); raf = 0;
       Object.keys(MAG).forEach(function (k) { if (els[k]) { els[k].style.setProperty('--mx', '0px'); els[k].style.setProperty('--my', '0px'); } });
+    });
+  })();
+  </script>
+  <script>
+  /* Featured projects: one entry per card. To publish a case study, set status to 'available' and href to
+     its page; the card then becomes a link. Anything 'locked' shows the greyscale locked state and is not a link. */
+  (function () {
+    var LOCKED_MSG = 'Still cooking. Worth the wait.';
+    var PROJECTS = {
+      'cruz-ride':  { brand: 'Cruz',        year: '2025', role: 'Product Design, Web Design',   status: 'locked', href: '' },
+      'ovaro':      { brand: 'Ovaro',       year: '2026', role: 'Product Design, Web Design',   status: 'locked', href: '' },
+      'ajira':      { brand: 'Ajira',       year: '2025', role: 'Mobile App Design',            status: 'locked', href: '' },
+      'cruz-drive': { brand: 'Cruz',        year: '2025', role: 'Product Design, Web Design',   status: 'locked', href: '' },
+      'nere':       { brand: 'Neré',        year: '2026', role: 'Design Engineering',           status: 'locked', href: '' },
+      'crest-homes':{ brand: 'Crest Homes', year: '2026', role: 'Product Design, Mobile Design', status: 'locked', href: '' }
+    };
+    function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
+    [].forEach.call(document.querySelectorAll('.card[data-project]'), function (card) {
+      var p = PROJECTS[card.dataset.project]; if (!p) return;
+      var open = p.status === 'available' && p.href;
+      var cap = el('div', 'card__cap'), left = el('span');
+      left.appendChild(el('span', 'card__brand', p.brand)); left.appendChild(document.createTextNode(' '));
+      left.appendChild(el('span', 'card__year', p.year));
+      cap.appendChild(left); cap.appendChild(el('span', 'card__role', p.role)); cap.setAttribute('aria-hidden', 'true');
+      var label = p.brand + ', ' + p.year + ', ' + p.role;
+      if (open) {
+        var a = el('a', card.className); a.href = p.href; a.dataset.project = card.dataset.project;
+        a.setAttribute('aria-label', label);
+        while (card.firstChild) a.appendChild(card.firstChild);
+        a.appendChild(cap); card.parentNode.replaceChild(a, card);
+      } else {
+        card.classList.add('is-locked'); card.tabIndex = 0;
+        card.setAttribute('role', 'group'); card.setAttribute('aria-label', label + '. Locked. ' + LOCKED_MSG);
+        var pill = el('span', 'card__pill'), ic = document.createElement('img');
+        ic.src = 'assets/icons/locked.svg'; ic.alt = ''; ic.width = 14; ic.height = 14;
+        pill.appendChild(ic); pill.appendChild(document.createTextNode(LOCKED_MSG)); pill.setAttribute('aria-hidden', 'true');
+        card.appendChild(pill); card.appendChild(cap);
+      }
     });
   })();
   </script>
